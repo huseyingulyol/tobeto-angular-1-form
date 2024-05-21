@@ -11,27 +11,24 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  async getDataFromNorthwind()
-  {
-      const data = await fetch("https://northwind.vercel.app/api/products");
-      return await data.json() ?? [];
+
+  getAll(): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(this.apiUrl);
   }
 
-  async getDataFromNorthwindById(id : number) : Promise<IProduct | undefined>
-  {
-      const data = await fetch(`https://northwind.vercel.app/api/products/${id}`);
-
-      return await data.json() ?? {};
+  getById(id : number) : Observable<IProduct> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<IProduct>(url);
   }
 
-  updateProduct(product: IProduct): Observable<void> {
+  update(product: IProduct): Observable<IProduct> {
     const url = `${this.apiUrl}/${product.id}`;
-    return this.http.put<void>(url, product);
+    return this.http.put<IProduct>(url, product);
   }
 
-  deleteProduct(productId : number): Observable<any> {
+  delete(productId : number): Observable<IProduct> {
     const url = `${this.apiUrl}/${productId}`;
-    return this.http.delete<any>(url);
+    return this.http.delete<IProduct>(url);
   }
 
 }

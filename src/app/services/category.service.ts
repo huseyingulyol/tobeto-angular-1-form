@@ -11,27 +11,23 @@ export class CategoryService {
 
   constructor(private http: HttpClient) {}
 
-  async getDataFromNorthwind()
-  {
-      const data = await fetch("https://northwind.vercel.app/api/categories");
-      return await data.json() ?? [];
+  getAll(): Observable<ICategory[]> {
+    return this.http.get<ICategory[]>(this.apiUrl);
   }
 
-  async getDataFromNorthwindById(id : number) : Promise<ICategory | undefined>
-  {
-      const data = await fetch(`https://northwind.vercel.app/api/categories/${id}`);
-
-      return await data.json() ?? {};
+  getById(id : number) : Observable<ICategory> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<ICategory>(url);
   }
 
-  updateCategory(category: ICategory): Observable<void> {
+  update(category: ICategory): Observable<ICategory> {
     const url = `${this.apiUrl}/${category.id}`;
-    return this.http.put<void>(url, category);
+    return this.http.put<ICategory>(url, category);
   }
 
-  deleteCategory(categoryId : number): Observable<any> {
-    const url = `${this.apiUrl}/${categoryId}`;
-    return this.http.delete<any>(url);
+  delete(id : number): Observable<ICategory> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete<ICategory>(url);
   }
 
 }

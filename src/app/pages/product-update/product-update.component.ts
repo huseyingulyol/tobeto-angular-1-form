@@ -35,7 +35,7 @@ export class ProductUpdateComponent  {
 
   constructor(private fb : FormBuilder, private router: Router) {
     const productId = Number(this.route.snapshot.params['id']);
-    this.productService.getDataFromNorthwindById(productId).then(product => {
+    this.productService.getById(productId).subscribe(product => {
       this.product = product;
       this.applyForm.patchValue({
         unitPrice: this.product?.unitPrice,
@@ -61,7 +61,7 @@ submitApplication() {
     name: this.applyForm.value.name ?? '',
   }; 
   console.log(product);
-  this.productService.updateProduct(product).subscribe(()=> {
+  this.productService.update(product).subscribe(()=> {
     this.router.navigate(['products'])
   });
 }

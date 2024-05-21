@@ -19,7 +19,7 @@ export class CategoriesComponent {
 
   removeCategory(categoryId: number)
   {
-    this.categoryService.deleteCategory(categoryId).subscribe(()=>
+    this.categoryService.delete(categoryId).subscribe(()=>
       {
         this.ngOnInit();
       }
@@ -27,7 +27,7 @@ export class CategoriesComponent {
   }
 
   ngOnInit() {   
-    this.categoryService.getDataFromNorthwind().then((data) => { 
+    this.categoryService.getAll().subscribe((data) => { 
       this.CategoryList = data;
       console.log(this.CategoryList);
     });

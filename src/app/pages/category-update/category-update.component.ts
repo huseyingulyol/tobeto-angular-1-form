@@ -29,7 +29,7 @@ export class CategoryUpdateComponent  {
 
   constructor(private fb : FormBuilder, private router: Router) {
     const categoryId = Number(this.route.snapshot.params['id']);
-    this.categoryService.getDataFromNorthwindById(categoryId).then(category => {
+    this.categoryService.getById(categoryId).subscribe(category => {
       this.category = category;
       this.applyForm.patchValue({
         name: this.category?.name,
@@ -47,7 +47,7 @@ submitApplication() {
     name:this.applyForm.value.name ?? ''
   }; 
 
-  this.categoryService.updateCategory(category).subscribe(()=> {
+  this.categoryService.update(category).subscribe(()=> {
     this.router.navigate(['categories'])
   });
 }

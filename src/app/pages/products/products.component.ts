@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { IProduct } from '../../interfaces/iproduct';
 
 @Component({
   selector: 'app-products',
@@ -13,12 +14,12 @@ import { RouterModule } from '@angular/router';
 export class ProductsComponent {
   productService = inject(ProductService);
 
-  ProductList : ProductElement[] = []; 
+  ProductList : IProduct[] = []; 
 
   removeProduct(productId: number)
   {
     console.log(productId);
-    this.productService.deleteProduct(productId).subscribe(()=>
+    this.productService.delete(productId).subscribe(()=>
       {
         this.ngOnInit();
       }
@@ -26,27 +27,9 @@ export class ProductsComponent {
   }
 
   ngOnInit() {   
-  this.productService.getDataFromNorthwind().then((data) => { 
-    this.ProductList = data;
-    console.log(this.ProductList);
-  });
+    this.productService.getAll().subscribe((data) => { 
+      this.ProductList = data;
+      console.log(this.ProductList);
+    });
+  }
 }
-}
-
-export interface ProductElement {
-  id: number;
-  categoryId: string;
-  unitPrice: string;
-  unitsInStock: string;
-  reorderLevel: string;
-  discontinued: string;
-  name: string;
-}
-
-// <td>{{product.id}}</td>
-// <td>{{product.categoryId}}</td>
-// <td>{{product.unitPrice}}</td>
-// <td>{{product.unitsInStock}}</td>
-// <td>{{product.reorderLevel}}</td>
-// <td>{{product.discontinued}}</td>
-// <td>{{product.name}}</td>
